@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Acronym Lookup</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <header>Acronym Lookup</header>
+        <article>
+            <section>
+                <table class="full-width">
+                    <tr>
+                        <td><label for="search">Search:</label></td>
+                        <td><input type="text" id="search" name="search" oninput="search()" class="full-width"></td>
+                    </tr>
+                </table>
+            </section>
+            <section>
+                <table class="data full-width">
+                    <thead>
+                        <tr>
+                            <td>Abbreviation</td>
+                            <td>Brief</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody id="results" th:insert="acronym_list.html :: acronymList(acronyms=${acronyms})">
+                    </tbody>
+                </table>
+            </section>
+        </article>
+        <footer>
+            <form action='/acronym/add' method='post'>
+                <fieldset>
+                    <legend>Add New Acronym</legend>
+                    <table class="full-width">
+                        <tr>
+                            <td><label for='abbreviation'>Abbreviation:</label></td>
+                            <td><input type='text' id='abbreviation' name='abbreviation'></td>
+                        </tr>
+                        <tr>
+                            <td><label for='brief'>Brief:</label></td>
+                            <td><input type='text' id='brief' name='brief' class="full-width"></td>
+                        </tr>
+                        <tr>
+                            <td><label for='description'>Description:</label></td>
+                            <td><textarea id='description' name='description' class="full-width"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input type='submit' value='Add'></td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </form>
+        </footer>
+    </body>
+    <script>
+        const instance = axios.create({
+        });
+
+        let abortController;
+
+        function toggleElement(element) {
+            if (element.classList.contains("hidden-by-default")) {
+                element.classList.remove("hidden-by-default");
+            } else {
+                element.classList.add("hidden-by-default");
+            }
+        }
+
+        function toggleDescription(index) {
+            const element = document.getElementById("description" + index);
+            toggleElement(element);
+        }
+
+        function search() {
+            if (abortController) abortController.abort();
+            abortController = new AbortController();
+
+            const requestConfiguration = {
+                signal: abortController.signal
+            };
+
+            const element = document.getElementById("search");
+            const abbreviation = element.value;
+
+            const request = (abbreviation.length > 0)
+                ? instance.get('/acronym/search?abbreviation=' + encodeURIComponent(abbreviation), requestConfiguration)
+                : instance.get('/acronym/recent', requestConfiguration);
+
+            request.then(function (response) {
+                const rows = response.data;
+                const tableBody = document.getElementById("results");
+                tableBody.innerHTML = rows;
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function () {
+            });
+        }
+    </script>
+</html>

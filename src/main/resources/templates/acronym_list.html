@@ -1,0 +1,16 @@
+<th:block th:fragment="acronymList (acronyms)" th:each="acronym: ${acronyms}">
+    <tr>
+        <td th:text="${acronym.abbreviation}"></td>
+        <td th:text="${acronym.brief}"></td>
+        <td>
+            <input type='button' value='Show' th:onclick='|toggleDescription(${acronym.acronymId})|'>
+            <form action='/acronym/remove' method='post'>
+                <input type='hidden' id='acronymId' name='acronymId' th:value='${acronym.acronymId}'>
+                <input type='submit' value='Delete'>
+            </form>
+        </td>
+    </tr>
+    <tr class="hidden-by-default" th:id="|description${acronym.acronymId}|">
+        <td colspan="3" th:text="${acronym.description}"></td>
+    </tr>
+</th:block>

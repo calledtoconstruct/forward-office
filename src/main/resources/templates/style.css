@@ -1,0 +1,38 @@
+header {
+    margin: 1em;
+    font-weight: bold;
+}
+
+article {
+    margin: 1em;
+}
+
+section {
+    margin-top: 1em;
+}
+
+table.data {
+    border-collapse: collapse;
+}
+
+table.data thead {
+    background-color: black;
+    color: white; font-weight: bold;
+}
+
+table.data td {
+    border: 1px solid black;
+    padding: 0.5em;
+}
+
+footer {
+    margin: 1em;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.hidden-by-default {
+    display: none;
+}

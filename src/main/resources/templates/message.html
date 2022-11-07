@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title th:text="${title}">Editor</title>
+        <link href="styles.css" type="text/css" />
+        <meta http-equiv="Refresh" th:content="|2; url='/${return_to}'|" />
+    </head>
+    <body>
+        <header th:text="${title}">Editor</header>
+        <article th:text="|Your request to ${operation} ${thing} was processed successfully!|">
+            Your request was processed successfully!
+        </article>
+        <footer>
+        </footer>
+    </body>
+</html>

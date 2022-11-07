@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Go Link Resolver</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <header>Go Link Editor</header>
+        <article>
+            <table class="data full-width">
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>URL</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tr th:each="entry: ${entries}">
+                    <td th:text="${entry.shortName}"></td>
+                    <td th:text="${entry.longName}"></td>
+                    <td>
+                        <form action='/entry/remove' method='post'>
+                            <input type='hidden' id='shortName' name='shortName' th:value='${entry.shortName}'>
+                            <input type='submit' value='Delete'>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </article>
+        <footer>
+            <form action='/entry/add' method='post'>
+                <fieldset>
+                    <legend>Add New</legend>
+                    <table class="full-width">
+                        <tr>
+                            <td><label for='shortName'>Short Name:</label></td>
+                            <td><input type='text' id='shortName' name='shortName'></td>
+                        </tr>
+                        <tr>
+                            <td><label for='longName'>Long Name:</label></td>
+                            <td><input type='text' id='longName' name='longName' class="full-width"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input type='submit' value='Add'></td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </form>
+        </footer>
+    </body>
+</html>
