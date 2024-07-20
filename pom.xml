@@ -79,6 +79,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <start-class>com.example.golink.GolinkApplication</start-class>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
