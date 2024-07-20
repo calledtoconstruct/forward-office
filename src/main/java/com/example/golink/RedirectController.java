@@ -97,16 +97,20 @@ public class RedirectController {
 
     @GetMapping("/{shortName}")
     public ResponseEntity<String> lookup(final @PathVariable String shortName) {
-        final var maybeLongName = lookupService.getLongName(shortName);
-        if (maybeLongName.isPresent()) {
-            final var longName = maybeLongName.get();
-            return ResponseEntity
-                .status(HttpStatus.SEE_OTHER)
-                .header("Location", longName)
-                .body("Thank you for using our service");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return lookupService.getLongName(shortName)
+            .map(RedirectController::redirect)
+            .orElseGet(RedirectController::notFound);
+    }
+
+    private static ResponseEntity<String> redirect(final String longName) {
+        return ResponseEntity
+        .status(HttpStatus.SEE_OTHER)
+        .header("Location", longName)
+        .body("Thank you for using our service");
+    }
+
+    private static ResponseEntity<String> notFound() {
+        return ResponseEntity.notFound().build();
     }
 
 }

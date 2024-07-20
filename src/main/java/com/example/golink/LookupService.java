@@ -17,12 +17,9 @@ public class LookupService {
     private AcronymRepository acronymRepository;
     
     public Optional<String> getLongName(String shortName) {
-        final var maybeEntry = goRepository.findById(shortName);
-        if (maybeEntry.isPresent()) {
-            final var entry = maybeEntry.get();
-            return Optional.of(entry.getLongName());
-        }
-        return Optional.empty();
+        return goRepository.findById(shortName)
+            .map(Entry::getLongName)
+            .or(Optional::empty);
     }
 
     public void addEntry(String shortName, String longName) {
