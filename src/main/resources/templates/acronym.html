@@ -25,7 +25,7 @@
                             <td>Action</td>
                         </tr>
                     </thead>
-                    <tbody id="results" th:insert="acronym_list.html :: acronymList(acronyms=${acronyms})">
+                    <tbody id="results" th:insert="~{acronym_list.html :: acronymList(acronyms=${acronyms})}">
                     </tbody>
                 </table>
             </section>
